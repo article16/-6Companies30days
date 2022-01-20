@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int equalPartition(int n, int a[])
+    {
+        int i, j, s = 0;
+        for (i = 0; i < n; i++)s += a[i];
+        if (s & 1)return 0;
+        bool dp[n + 1][s + 1];
+        for (i = 0; i <= n; i++) {
+            for (j = 0; j <= s; j++) {
+                if (j == 0)dp[i][j] = true;
+                else if (i == 0)dp[i][j] = false;
+                else {
+                    dp[i][j] = dp[i - 1][j];
+                    if (j - a[i - 1] >= 0)dp[i][j] |= dp[i - 1][j - a[i - 1]];
+                }
+                if (j == s / 2 && dp[i][j])return 1;
+            }
+        }
+        return 0;
+    }
+};
